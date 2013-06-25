@@ -1,0 +1,407 @@
+=encoding utf8
+
+=head1 Class Form Documentation
+
+=head2 Description
+
+Class Form - XML Generator for DHTMLX
+
+=head3 construct
+
+B<$form = new Form( set encoding, default utf-8 )>
+
+    $form = new Form;
+    
+or
+
+    $form = new Form('iso-8859-1');
+
+=head3 item
+
+B<$form-E<gt>item( array( 'key attribute' =E<gt> 'value attribute' ) )>
+
+settings
+
+    $form->item(
+        array(
+            "type" => "settings",
+            "labelWidth" => 90
+        )
+    );
+    
+input
+
+    $form->item(
+        array(
+            "type" => "input",
+            "name" => "foo",
+            "label" => "Foo"
+        )
+    );
+    
+button
+
+    $form->item(
+        array(
+            "type" => "button",
+            "value" => "Button"
+        )
+    );
+    
+select
+
+    $form->item(
+        array(
+            "type" => "select",
+            "name" => "bar",
+            "label" => "Bar",
+            "option" => array(
+                array("text" => "Admin", "value" => "admin"),
+                array("text" => "User", "value" => "user", "selected" => "true")
+            )
+        )
+    );
+    
+note
+
+    $form->item(
+        array(
+            "type" => "input",
+            "name" => "foo",
+            "label" => "Foo",
+            "note" => "value"
+        )
+    );
+    
+or
+
+    $form->item(
+        array(
+            "type" => "input",
+            "name" => "foo",
+            "label" => "Foo",
+            "note" => array(
+                "width" => 150,
+                "text" => "value"
+            )
+        )
+    );
+    
+=head3 start and end
+
+B<$form-E<gt>start( array( 'key attribute' =E<gt> 'value attribute' ) )> and B<$form-E<gt>end()>
+
+settings
+
+    $form->start(
+        array(
+            "type" => "settings",
+            "labelWidth" => 90
+        )
+    );
+    
+    $form->item(
+        array(
+            "type" => "input",
+            "name" => "foo",
+            "label" => "Foo"
+        )
+    );
+    
+    $form->item(
+        array(
+            "type" => "select",
+            "name" => "bar",
+            "label" => "Bar",
+            "option" => array(
+                array("text" => "Admin", "value" => "admin"),
+                array("text" => "User", "value" => "user", "selected" => "true")
+            )
+        )
+    );
+    
+    $form->end();
+    
+=head3 option
+
+B<$form-E<gt>option( array( 'key attribute' =E<gt> 'value attribute' ) )>
+
+select
+
+    $form->start(
+        array(
+            "type" => "select",
+            "name" => "bar",
+            "label" => "Bar"
+        )
+    );
+    
+    $form->option(
+        array("value" => "1", "text" => "Option 1"),
+        array("value" => "2", "text" => "Option 2"),
+        array("value" => "3", "text" => "Option 3"),
+        array("value" => "4", "text" => "Option 4")  
+    );
+    
+    $form->end();
+    
+=head3 header
+
+B<$form-E<gt>header()>
+
+    $form->header();
+    
+return
+
+    header("Content-type: application/xml; charset=utf-8");
+
+=head3 result
+
+B<$form-E<gt>result()>
+
+    echo $form->result();
+    
+Print XML
+
+=head2 Examples
+
+=head3 Example 1
+
+B<Mode 1>
+
+    <?php
+    include_once 'DHX.php';
+    
+    $form1 = new Form();
+
+    $form1->item(
+        array(
+            "type" => "settings",
+            "position" => "label-right",
+            "item" => array(
+                array(
+                    "type" => "fieldset",
+                    "inputWidth" => 240,
+                    "label" => "Login and Senha",
+                    "item" => array(
+                        array(
+                            "type" => "input", 
+                            "name" => "login", 
+                            "inputWidth" => 200, 
+                            "label" => "Login"
+                        ),
+                        array(
+                            "type" => "password", 
+                            "name" => "password", 
+                            "inputWidth" => 200, 
+                            "label" => "Password"
+                        )
+                    )
+                )
+            )
+        )
+    );
+    
+    $form1->header();
+    echo $form1->result();
+    ?>
+    
+B<Result>
+
+    <?xml version="1.0" encoding="utf-8"?>
+    <items>
+        <item type="settings" position="label-right">
+            <item type="fieldset" inputWidth="240" label="Login and Senha">
+                <item type="input" name="login" inputWidth="200" label="Login"/>
+                <item type="password" name="password" inputWidth="200" label="Password"/>
+            </item>
+        </item>
+    </items>
+    
+B<Mode 2>
+
+    <?php
+    include_once 'DHX.php';
+    
+    $form2 = new Form('iso-8859-1'); // set encoding iso-8859-1, default utf-8
+    
+    // start settings
+    $form2->start(
+        array(
+            "type" => "settings",
+            "position" => "label-right"
+        )
+    );
+    
+    // start fieldset
+    $form2->start(
+        array(
+            "type" => "fieldset",
+            "inputWidth" => 240,
+            "label" => "Login and Senha",
+        )
+    );
+
+    // login and password
+    $form2->item(
+        array(
+            "type" => "input",
+            "name" => "login",
+            "inputWidth" => 200,
+            "label" => "Login"
+        ),
+        array(
+            "type" => "password",
+            "name" => "password",
+            "inputWidth" => 200,
+            "label" => "Password"
+        )
+    );
+    
+    $form2->end(); // end fieldset
+    $form2->end(); // end settings
+    
+    $form2->header();
+    echo $form2->result();
+    ?>
+    
+B<Result>
+
+    <?xml version="1.0" encoding="iso-8859-1"?>
+    <items>
+        <item type="settings" position="label-right">
+            <item type="fieldset" inputWidth="240" label="Login and Senha">
+                <item type="input" name="login" inputWidth="200" label="Login"/>
+                <item type="password" name="password" inputWidth="200" label="Password"/>
+            </item>
+        </item>
+    </items>
+
+=head3 Example 2
+
+B<Mode 1>
+
+    <?php
+    include_once 'DHX.php';
+    
+    $form1 = new Form();
+
+    $form1->item(
+        array(
+            "type" => "settings",
+            "position" => "label-right",
+            "item" => array(
+                array(
+                    "type" => "fieldset",
+                    "inputWidth" => 240,
+                    "label" => "Select",
+                    "item" => array(
+                        array(
+                            "type" => "select",
+                            "name" => "select",
+                            "label" => "Select",
+                            "option" => array(
+                                array("value" => "1", "text" => "Option 1"),
+                                array("value" => "2", "text" => "Option 2"),
+                                array("value" => "3", "text" => "Option 3"),
+                                array("value" => "4", "text" => "Option 4")
+                            )
+                        )
+                    )
+                )
+            )
+        )
+    );
+    
+    $form1->header();
+    echo $form1->result();
+    ?>
+    
+B<Result>
+
+    <?xml version="1.0" encoding="utf-8"?>
+    <items>
+        <item type="settings" position="label-right">
+            <item type="fieldset" inputWidth="240" label="Select">
+                <item type="select" name="select" label="Select">
+                    <option value="1" text="Option 1"/>
+                    <option value="2" text="Option 2"/>
+                    <option value="3" text="Option 3"/>
+                    <option value="4" text="Option 4"/>
+                </item>
+            </item>
+        </item>
+    </items>
+    
+B<Mode 2>
+
+    <?php
+    include_once 'DHX.php';
+    
+    $form2 = new Form('iso-8859-1'); // set encoding iso-8859-1, default utf-8
+    
+    // start settings
+    $form2->start(
+        array(
+            "type" => "settings",
+            "position" => "label-right"
+        )
+    );
+    
+    // start fieldset
+    $form2->start(
+        array(
+            "type" => "fieldset",
+            "inputWidth" => 240,
+            "label" => "Select",
+        )
+    );
+
+    // start select
+    $form2->start(
+        array(
+            "type" => "select",
+            "name" => "select",
+            "label" => "Select"
+        )
+    );
+    
+    $form2->option(
+        array("value" => "1", "text" => "Option 1"),
+        array("value" => "2", "text" => "Option 2"),
+        array("value" => "3", "text" => "Option 3"),
+        array("value" => "4", "text" => "Option 4")
+    );
+    
+    $form2->end(); // end select
+    $form2->end(); // end fieldset
+    $form2->end(); // end settings
+    
+    $form2->header();
+    echo $form2->result();
+    ?>
+    
+B<Result>
+
+    <?xml version="1.0" encoding="iso-8859-1"?>
+    <items>
+        <item type="settings" position="label-right">
+            <item type="fieldset" inputWidth="240" label="Select">
+                <item type="select" name="select" label="Select">
+                    <option value="1" text="Option 1"/>
+                    <option value="2" text="Option 2"/>
+                    <option value="3" text="Option 3"/>
+                    <option value="4" text="Option 4"/>
+                </item>
+            </item>
+        </item>
+    </items>
+    
+=head2 Author
+
+B<Lucas Tiago de Moraes>
+
+=head2 Support
+
+L<Group DHTMLX Facebook|https://www.facebook.com/groups/195216390589070/>
+

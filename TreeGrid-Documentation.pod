@@ -1,0 +1,196 @@
+=encoding utf8
+
+=head1 Class TreeGrid Documentation
+
+=head2 Description
+
+Class TreeGrid - XML Generator for DHTMLX
+
+=head3 construct
+
+B<$treegrid = new TreeGrid( set encoding, default utf-8 )>
+
+    $treegrid = new TreeGrid;
+    
+or
+
+    $treegrid = new TreeGrid('iso-8859-1');
+    
+=head3 attributes
+
+B<parent>
+
+    $treegrid->parent = 1; // default 0
+
+=head3 row
+
+B<$treegrid-E<gt>row( array( 'key attribute' =E<gt> 'value attribute' ) )>
+
+    $treegrid->row(
+        array(
+            "id" => 11,
+            "open" => 1,
+            "cell" => array("Value 1", "Value 2", "Value 3")
+        )
+    );
+    
+=head3 start and end
+
+B<$treegrid-E<gt>start( array( 'key attribute' =E<gt> 'value attribute' ) )> and B<$menu-E<gt>end()>
+
+    $treegrid->start(
+        array(
+            "id" => 11,
+            "open" => 1
+        )
+    );
+    
+    $treegrid->cell("Value 1", "Value 2");
+    
+    $treegrid->end();
+    
+=head3 cell
+    
+B<$treegrid-E<gt>cell( array( 'key attribute' =E<gt> 'value attribute' ) or 'value' )>
+
+    $treegrid->start(
+        array(
+            "id" => 11,
+            "open" => 1
+        )
+    );
+    
+    $treegrid->cell("Value 1", "Value 2", array("image" => "some.gif", "text" => "Value 3"));
+    
+    $treegrid->cell(array("image" => "value.gif", "text" => "Value 4");
+    
+    $treegrid->end();
+                    
+=head3 header
+
+B<$treegrid-E<gt>header()>
+
+    $treegrid->header();
+    
+return
+
+    header("Content-type: application/xml; charset=utf-8");
+
+=head3 result
+
+B<$treegrid-E<gt>result()>
+
+    echo $treegrid->result();
+    
+Print XML
+
+=head2 Examples
+
+=head3 Example 1
+
+B<Mode 1>
+
+    <?php
+    include_once 'DHX.php';
+    
+    $treegrid = new TreeGrid;
+    
+    $treegrid->row(
+        array(
+            "id" => 11,
+            "open" => 1,
+            "cell" => array(
+                "Value 1",
+                "Value 2",
+                array(
+                    "image" => "some.gif",
+                    "text" => "Value3"
+                )
+            ),
+            "row" => array(
+                array(
+                    "id" => 110,
+                    "cell" => array(
+                        "first column data",
+                        "second column data"
+                    )
+                )
+            )
+        )
+    );
+    
+    $treegrid->header();
+    echo $treegrid->result();
+    ?>
+    
+B<Result>
+
+    <?xml version="1.0" encoding="utf-8"?>
+    <rows parent="0">
+        <row id="11" open="1">
+            <cell>Value 1</cell>
+            <cell>Value 2</cell>
+            <cell image="some.gif">Value3</cell>
+            <row id="110">
+                <cell>first column data</cell>
+                <cell>second column data</cell>
+            </row>
+        </row>
+    </rows>
+    
+B<Mode 2>
+
+    <?php
+    include_once 'DHX.php';
+    
+    $treegrid = new TreeGrid("iso-8859-1");
+    
+    // start id 11
+    $treegrid->start(
+        array(
+            "id" => 11,
+            "open" => 1,
+        )
+    );
+    
+    $treegrid->cell("Value 1", "Value 2", array("image" => "some.gif", "text" => "Value3"));
+    
+    // start id 110
+    $treegrid->start(
+        array(
+            "id" => 110
+        )
+    );
+    
+    $treegrid->cell("first column data", "second column data");
+    
+    $treegrid->end(); // end id 110
+    
+    $treegrid->end(); // end id 11
+    
+    $treegrid->header();
+    echo $treegrid->result();
+    ?>
+    
+B<Result>
+
+    <?xml version="1.0" encoding="iso-8859-1"?>
+    <rows parent="0">
+        <row id="11" open="1">
+            <cell>Value 1</cell>
+            <cell>Value 2</cell>
+            <cell image="some.gif">Value3</cell>
+            <row id="110">
+                <cell>first column data</cell>
+                <cell>second column data</cell>
+            </row>
+        </row>
+    </rows>
+    
+=head2 Author
+
+B<Lucas Tiago de Moraes>
+
+=head2 Support
+
+L<Group DHTMLX Facebook|https://www.facebook.com/groups/195216390589070/>

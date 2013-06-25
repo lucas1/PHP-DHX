@@ -1,0 +1,173 @@
+=encoding utf8
+
+=head1 Class DataProcessor Documentation
+
+=head2 Description
+
+Class DataProcessor - XML Generator for DHTMLX
+
+=head3 construct
+
+B<$dataprocessor = new DataProcessor( set encoding, default utf-8 )>
+
+    $dataprocessor = new DataProcessor;
+    
+or
+
+    $dataprocessor = new DataProcessor('iso-8859-1');
+    
+=head3 action
+
+B<$dataprocessor-E<gt>action( array( 'key attribute' =E<gt> 'value attribute' ) )>
+
+    $dataprocessor->action(
+        array(
+            "type" => "inserted",
+            "sid" => 2,
+            "tid" => 2
+        )
+    );
+  
+=head3 inserted
+
+B<$dataprocessor-E<gt>inserted( 'sid', 'tid', optional array( 'key attribute' =E<gt> 'value attribute' ) )>
+
+    $dataprocessor->inserted(2, 2, array("details" => "foo"));
+    
+=head3 updated
+
+B<$dataprocessor-E<gt>updated( 'sid', 'tid', optional array( 'key attribute' =E<gt> 'value attribute' ) )>
+
+    $dataprocessor->updated(20, 20, array("extra" => "bar"));
+    
+=head3 deleted
+    
+B<$dataprocessor-E<gt>deleted( 'sid', 'tid', optional array( 'key attribute' =E<gt> 'value attribute' ) )>
+
+    $dataprocessor->deleted(8, 8);
+    
+=head3 invalid
+    
+B<$dataprocessor-E<gt>invalid( 'sid', 'message', optional array( 'key attribute' =E<gt> 'value attribute' ) )>
+
+    $dataprocessor->invalid(10, 'Data in first column is not valid');
+    
+=head3 error
+    
+B<$dataprocessor-E<gt>error( 'sid', 'tid', optional array( 'key attribute' =E<gt> 'value attribute' ) )>
+
+    $dataprocessor->error(3, 3);
+    
+=head3 header
+
+B<$dataprocessor-E<gt>header()>
+
+    $dataprocessor->header();
+    
+return
+
+    header("Content-type: application/xml; charset=utf-8");
+
+=head3 result
+
+B<$dataprocessor-E<gt>result()>
+
+    echo $dataprocessor->result();
+    
+Print XML
+
+=head2 Examples
+
+=head3 Example 1
+
+    <?php
+    include_once 'DHX.php';
+    
+    $dataprocessor = new DataProcessor;
+    
+    $dataprocessor->action(
+        array(
+            "type" => "inserted",
+            "sid" => 2,
+            "tid" => 2
+        )
+    );
+    
+    $dataprocessor->header();
+    echo $dataprocessor->result();
+    ?>
+    
+B<Result>
+
+    <?xml version="1.0" encoding="utf-8"?>
+    <data>
+        <action type="inserted" sid="2" tid="2"/>
+    </data>
+    
+=head3 Example 2
+
+    <?php
+    include_once 'DHX.php';
+    
+    $dataprocessor = new DataProcessor;
+    
+    $dataprocessor->inserted(15, 15, array("details" => "successfully added"));
+    
+    $dataprocessor->header();
+    echo $dataprocessor->result();
+    ?>
+    
+B<Result>
+
+    <?xml version="1.0" encoding="utf-8"?>
+    <data>
+        <action type="inserted" sid="15" tid="15">successfully added</action>
+    </data>
+
+=head3 Example 3
+
+    <?php
+    include_once 'DHX.php';
+    
+    $dataprocessor = new DataProcessor('iso-8859-1');
+    
+    $dataprocessor->invalid(300, "Data in first column is not valid");
+    
+    $dataprocessor->header();
+    echo $dataprocessor->result();
+    ?>
+    
+B<Result>
+
+    <?xml version="1.0" encoding="iso-8859-1"?>
+    <data>
+        <action type="invalid" sid="300" message="Data in first column is not valid"/>
+    </data>
+    
+=head3 Example 4
+
+    <?php
+    include_once 'DHX.php';
+    
+    $dataprocessor = new DataProcessor('iso-8859-1');
+    
+    $dataprocessor->updated(132, 132, array("extra" => "new value for first column"));
+    
+    $dataprocessor->header();
+    echo $dataprocessor->result();
+    ?>
+    
+B<Result>
+
+    <?xml version="1.0" encoding="iso-8859-1"?>
+    <data>
+        <action type="updated" sid="132" tid="132" extra="new value for first column"/>
+    </data>
+    
+=head2 Author
+
+B<Lucas Tiago de Moraes>
+
+=head2 Support
+
+L<Group DHTMLX Facebook|https://www.facebook.com/groups/195216390589070/>

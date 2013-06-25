@@ -1,0 +1,313 @@
+=encoding utf8
+
+=head1 Class Menu Documentation
+
+=head2 Description
+
+Class Menu - XML Generator for DHTMLX
+
+=head3 construct
+
+B<$menu = new Menu( set encoding, default utf-8 )>
+
+    $menu = new Menu;
+    
+or
+
+    $menu = new Menu('iso-8859-1');
+
+=head3 item
+
+B<$menu-E<gt>item( array( 'key attribute' =E<gt> 'value attribute' ) )>
+
+    $menu->item(
+        array(
+            "id" => "file",
+            "text" => "File",
+            "item" => array(
+                array("id" => "new", "text" => "New"),
+                array("id" => "ms1", "type" => "separator"),
+                array("id" => "export", "text" => "Export")
+            )
+        )
+    );
+    
+=head3 userdata
+
+B<$menu-E<gt>userdata( array( 'key attribute' =E<gt> 'value attribute' ) )>
+
+    $menu->userdata(
+        array(
+            "name" => "some1",
+            "value" => "Value1"
+        ),
+        array(
+            "name" => "some2",
+            "value" => "Value2"
+        )
+    );
+    
+=head3 start and end
+
+B<$menu-E<gt>start( array( 'key attribute' =E<gt> 'value attribute' ) )> and B<$menu-E<gt>end()>
+
+    $menu->start(
+        array(
+            "id" => "file",
+            "text" => "File"
+        )
+    );
+    
+    $menu->userdata(
+        array(
+            "name" => "some1",
+            "value" => "Value1"
+        )
+    );
+    
+    $menu->item(
+        array(
+            "id" => "new", 
+            "text" => "New"
+        ),
+        array(
+            "id" => "ms1", 
+            "type" => "separator"
+        ),
+        array(
+            "id" => "export", 
+            "text" => "Export"
+        )
+    );
+    
+    $menu->end();
+    
+=head3 header
+
+B<$menu-E<gt>header()>
+
+    $menu->header();
+    
+return
+
+    header("Content-type: application/xml; charset=utf-8");
+
+=head3 result
+
+B<$menu-E<gt>result()>
+
+    echo $menu->result();
+    
+Print XML
+
+=head2 Examples
+
+=head3 Example 1
+
+B<Mode 1>
+
+    <?php
+    include_once 'DHX.php';
+    
+    $menu = new Menu;
+    
+    $menu->item(
+        array(
+            "id" => "file",
+            "text" => "File",
+            "item" => array(
+                array("id" => "new", "text" => "New"),
+                array("id" => "ms1", "type" => "separator"),
+                array("id" => "export", "text" => "Export")
+            )
+        )
+    );
+    
+    $menu->header();
+    echo $menu->result();
+    ?>
+    
+B<Result>
+
+    <?xml version="1.0" encoding="utf-8"?>
+    <menu>
+        <item id="file" text="File">
+            <item id="new" text="New"/>
+            <item id="ms1" type="separator"/>
+            <item id="export" text="Export"/>
+        </item>
+    </menu>
+    
+B<Mode 2>
+
+    <?php
+    include_once 'DHX.php';
+    
+    $menu = new Menu("iso-8859-1");
+    
+    $menu->start(
+        array(
+            "id" => "file",
+            "text" => "File"
+        )
+    );
+    
+    $menu->item(
+        array("id" => "new", "text" => "New"),
+        array("id" => "ms1", "type" => "separator"),
+        array("id" => "export", "text" => "Export")
+    );
+    
+    $menu->end();
+    
+    $menu->header();
+    echo $menu->result();
+    ?>
+    
+B<Result>
+
+    <?xml version="1.0" encoding="iso-8859-1"?>
+    <menu>
+        <item id="file" text="File">
+            <item id="new" text="New"/>
+            <item id="ms1" type="separator"/>
+            <item id="export" text="Export"/>
+        </item>
+    </menu>
+    
+=head3 Example 2
+
+B<Mode 1>
+
+    <?php
+    include_once 'DHX.php';
+    
+    $menu = new Menu;
+    
+    $menu->item(
+        array(
+            "id" => "file",
+            "text" => "File",
+            "userdata" => array(
+                "name" => "some1",
+                "value" => "Value 1"
+            ),
+            "item" => array(
+                array(
+                    "id" => "new",
+                    "text" => "New"
+                ),
+                array(
+                    "id" => "ms1",
+                    "type" => "separator"
+                ),
+                array(
+                    "id" => "export",
+                    "text" => "Export",
+                    "item" => array(
+                        array(
+                            "id" => "export_pdf",
+                            "text" => "PDF",
+                            "enabled" => "false"
+                        )
+                    )
+                )
+            )
+        )
+    );
+    
+    $menu->header();
+    echo $menu->result();
+    ?>
+    
+B<Result>
+
+    <?xml version="1.0" encoding="utf-8"?>
+    <menu>
+        <item id="file" text="File">
+            <userdata name="some1">Value 1</userdata>
+            <item id="new" text="New"/>
+            <item id="ms1" type="separator"/>
+            <item id="export" text="Export">
+                <item id="export_pdf" text="PDF" enabled="false"/>
+            </item>
+        </item>
+    </menu>
+    
+B<Mode 2>
+
+    <?php
+    include_once 'DHX.php';
+    
+    $menu = new Menu("iso-8859-1");
+    
+    // start file
+    $menu->start(
+        array(
+            "id" => "file",
+            "text" => "File"
+        )
+    );
+    
+    $menu->userdata(
+        array(
+            "name" => "some1",
+            "value" => "Value 1"
+        )
+    );
+    
+    $menu->item(
+        array(
+            "id" => "new",
+            "text" => "New"
+        ),
+        array(
+            "id" => "ms1",
+            "type" => "separator"
+        )
+    );
+    
+    // start export
+    $menu->start(
+        array(
+            "id" => "export",
+            "text" => "Export",
+        )
+    );
+    
+    $menu->item(
+        array(
+            "id" => "export_pdf",
+            "text" => "PDF",
+            "enabled" => "false"
+        )
+    );
+    
+    $menu->end(); // end export
+    $menu->end(); // end file
+    
+    $menu->header();
+    echo $menu->result();
+    ?>
+    
+B<Result>
+
+    <?xml version="1.0" encoding="iso-8859-1"?>
+    <menu>
+        <item id="file" text="File">
+            <userdata name="some1">Value 1</userdata>
+            <item id="new" text="New"/>
+            <item id="ms1" type="separator"/>
+            <item id="export" text="Export">
+                <item id="export_pdf" text="PDF" enabled="false"/>
+            </item>
+        </item>
+    </menu>
+
+=head2 Author
+
+B<Lucas Tiago de Moraes>
+
+=head2 Support
+
+L<Group DHTMLX Facebook|https://www.facebook.com/groups/195216390589070/>

@@ -1,0 +1,120 @@
+=encoding utf8
+
+=head1 Class Accordion Documentation
+
+=head2 Description
+
+Class Accordion - XML Generator for DHTMLX
+
+=head3 construct
+
+B<$accordion = new Accordion( set encoding, default utf-8 )>
+
+    $accordion = new Accordion;
+    
+or
+
+    $accordion = new Accordion('iso-8859-1');
+    
+=head3 attributes
+
+B<skin>
+
+    $accordion->skin = 'dhx_skyblue'; // default skin dhx_skyblue
+    
+B<mode>
+
+    $accordion->mode = 'single'; // default single
+    
+B<iconsPath>
+
+    $accordion->iconsPath = '../common/'; // default path '../common/'
+    
+B<openEffect>
+
+    $accordion->openEffect = 'false'; // default false
+
+=head3 cell
+
+B<$accordion-E<gt>cell( array( 'key attribute' =E<gt> 'value attribute' ) )>
+
+    $accordion->cell(
+        array(
+            "id" => "a1", 
+            "height" => "120",
+            "text" => "Main Page"
+        )
+    );
+    
+=head3 header
+
+B<$accordion-E<gt>header()>
+
+    $accordion->header();
+    
+return
+
+    header("Content-type: application/xml; charset=utf-8");
+
+=head3 result
+
+B<$accordion-E<gt>result()>
+
+    echo $accordion->result();
+    
+Print XML
+
+=head2 Examples
+
+=head3 Example 1
+
+    <?php
+    include_once 'DHX.php';
+    
+    $accordion = new Accordion;
+    
+    $accordion->cell(
+        array(
+            "id" => "a1", 
+            "height" => "120",
+            "text" => "Main Page"
+        ),
+        array(
+            "id" => "a2", 
+            "open" => "true",
+            "text" => "Site Navigation"
+        ),
+        array(
+            "id" => "a3", 
+            "icon" => "icon2.gif",
+            "text" => "Support &amp; Feedback"
+        ),
+        array(
+            "id" => "a4", 
+            "icon" => "icon3.gif",
+            "text" => "Comments"
+        )
+    );
+    
+    $accordion->header();
+    echo $accordion->result();
+    ?>
+    
+B<Result>
+
+    <?xml version="1.0" encoding="utf-8"?>
+    <accordion skin="dhx_skyblue" mode="single" iconsPath="../common/" openEffect="false">
+        <cell id="a1" height="120">Main Page</cell>
+        <cell id="a2" open="true">Site Navigation</cell>
+        <cell id="a3" icon="icon2.gif">Support &amp; Feedback</cell>
+        <cell id="a4" icon="icon3.gif">Comments</cell>
+    </accordion>
+
+=head2 Author
+
+B<Lucas Tiago de Moraes>
+
+=head2 Support
+
+L<Group DHTMLX Facebook|https://www.facebook.com/groups/195216390589070/>
+

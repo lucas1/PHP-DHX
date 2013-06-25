@@ -1,0 +1,107 @@
+=encoding utf8
+
+=head1 Class Combo Documentation
+
+=head2 Description
+
+Class Combo - XML Generator for DHTMLX
+
+=head3 construct
+
+B<$combo = new Combo( set encoding, default utf-8 )>
+
+    $combo = new Combo;
+    
+or
+
+    $combo = new Combo('iso-8859-1');
+    
+=head3 attributes
+
+B<add>
+
+    $combo->add = "true";
+    
+=head3 option
+
+B<$combo-E<gt>option( array( 'key attribute' =E<gt> 'value attribute' ) )>
+
+    $combo->option(
+        array(
+            "value" => 1,
+            "css" => "font-weight:bold;",
+            "text" => "One"
+        )
+    );
+    
+=head3 header
+
+B<$combo-E<gt>header()>
+
+    $combo->header();
+    
+return
+
+    header("Content-type: application/xml; charset=utf-8");
+
+=head3 result
+
+B<$combo-E<gt>result()>
+
+    echo $combo->result();
+    
+Print XML
+
+=head2 Examples
+
+=head3 Example 1
+
+    <?php
+    include_once 'DHX.php';
+    
+    $combo = new Combo;
+    
+    $combo->option(
+        array(
+            "value" => 1,
+            "css" => "font-weight:bold;",
+            "text" => "One"
+        ),
+        array(
+            "value" => 2,
+            "text" => "Two"
+        ),
+        array(
+            "value" => 3,
+            "img_src" => "some.gif",
+            "text" => "Three"
+        ),
+        array(
+            "value" => 4,
+            "cdata" => "<strong>four</strong>"
+        )
+    );
+    
+    $combo->header();
+    echo $combo->result();
+    ?>
+    
+B<Result>
+    
+    <?xml version="1.0" encoding="utf-8"?>
+    <complete>
+        <option value="1" css="font-weight:bold;">One</option>
+        <option value="2">Two</option>
+        <option value="3" img_src="some.gif">Three</option>
+        <option value="4">
+            <![CDATA[ <strong>four</strong> ]]>
+        </option>
+    </complete>
+    
+=head2 Author
+
+B<Lucas Tiago de Moraes>
+
+=head2 Support
+
+L<Group DHTMLX Facebook|https://www.facebook.com/groups/195216390589070/>

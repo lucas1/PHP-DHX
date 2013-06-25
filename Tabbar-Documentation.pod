@@ -1,0 +1,106 @@
+=encoding utf8
+
+=head1 Class Tabbar Documentation
+
+=head2 Description
+
+Class Tabbar - XML Generator for DHTMLX
+
+=head3 construct
+
+B<$tabbar = new Tabbar( set encoding, default utf-8 )>
+
+    $tabbar = new Tabbar;
+    
+or
+
+    $tabbar = new Tabbar('iso-8859-1');
+    
+=head3 tab
+
+B<$tabbar-E<gt>tab( array( 'key attribute' =E<gt> 'value attribute' ) )>
+
+    $tabbar->tab(
+        array(
+            "id" => "tab1",
+            "text" => "Tab 1",
+            "content" => "content of tab"
+        )
+    );
+    
+=head3 header
+
+B<$tabbar-E<gt>header()>
+
+    $tabbar->header();
+    
+return
+
+    header("Content-type: application/xml; charset=utf-8");
+
+=head3 result
+
+B<$tabbar-E<gt>result()>
+
+    echo $tabbar->result();
+    
+Print XML
+
+=head2 Examples
+
+=head3 Example 1
+
+    <?php
+    include_once 'DHX.php';
+    
+    $tabbar = new Tabbar;
+    
+    $tabbar->tab(
+        array(
+            "id" => "tab1",
+            "text" => "Tab 1"
+        ),
+        array(
+            "id" => "tab2",
+            "text" => "Tab 2",
+            "content" => "content of tab"
+        ),
+        array(
+            "id" => "tab3",
+            "text" => "Tab 3",
+            "content" => "content of tab"
+        )
+    );
+    
+    $tabbar->header();
+    echo $tabbar->result();
+    ?>
+    
+B<Result>
+
+    <?xml version="1.0" encoding="utf-8"?>
+    <tabbar>
+        <row>
+            <tab id="tab1">Tab 1</tab>
+            <tab id="tab2">
+                Tab 2
+                <content>
+                    <![CDATA[ content of tab ]]>
+                </content>
+            </tab>
+            <tab id="tab3">
+                Tab 3
+                <content>
+                    <![CDATA[ content of tab ]]>
+                </content>
+            </tab>
+        </row>
+    </tabbar>
+    
+=head2 Author
+
+B<Lucas Tiago de Moraes>
+
+=head2 Support
+
+L<Group DHTMLX Facebook|https://www.facebook.com/groups/195216390589070/>

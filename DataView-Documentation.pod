@@ -1,0 +1,245 @@
+=encoding utf8
+
+=head1 Class DataView Documentation
+
+=head2 Description
+
+Class DataView - XML Generator for DHTMLX
+
+=head3 construct
+
+B<$dataview = new DataView( set encoding, default utf-8 )>
+
+    $dataview = new DataView;
+    
+or
+
+    $dataview = new DataView('iso-8859-1');
+    
+=head3 attributes
+
+B<pos>
+
+    $dataview->pos = 100;
+    
+B<total_count>
+
+    $dataview->total_count = 1000;
+    
+=head3 item
+
+B<$dataview-E<gt>item( array( 'key attribute' =E<gt> 'value attribute' ) )>
+
+    $dataview->item(
+        array(
+            "id" => 1,
+            "Package" => "acx100-source",
+            "Version" => "20080210-1.1",
+            "Maintainer" => "Stefano Canepa <sc@linux.it>"
+        )
+    );
+    
+=head3 file
+
+B<$dataview-E<gt>file( array( 'key attribute' =E<gt> 'value attribute' ) )>
+
+    $dataview->file(
+        array(
+            "id" => 1,
+            "name" => "Classes New",
+            "type" => "dir"
+        )
+    );
+    
+=head3 header
+
+B<$dataview-E<gt>header()>
+
+    $dataview->header();
+    
+return
+
+    header("Content-type: application/xml; charset=utf-8");
+
+=head3 result
+
+B<$dataview-E<gt>result()>
+
+    echo $dataview->result();
+    
+Print XML
+
+=head2 Examples
+
+=head3 Example 1
+
+    <?php
+    include_once 'DHX.php';
+    
+    $dataview = new DataView;
+    
+    $dataview->item(
+        array(
+            "id" => 1,
+            "Package" => "acx100-source",
+            "Version" => "20080210-1.1",
+            "Maintainer" => "Stefano Canepa <sc@linux.it>"
+        ),
+        array(
+            "id" => 2,
+            "Package" => "alien-arena-browser",
+            "Version" => "7.0-1",
+            "Maintainer" => "Debian Games Team <pkg-games-devel@lists.alioth.debian.org>"
+        ),
+        array(
+            "id" => 3,
+            "Package" => "alsa-firmware-loaders",
+            "Version" => "1.0.21-1",
+            "Maintainer" => "Debian ALSA Maintainers <pkg-alsa-devel@lists.alioth.debian.org>"
+        )
+    );
+    
+    $dataview->header();
+    echo $dataview->result();
+    ?>
+    
+B<Result>
+
+    <?xml version="1.0" encoding="utf-8"?>
+    <data>
+        <item id="1">
+            <Package>
+                <![CDATA[ acx100-source ]]>
+            </Package>
+            <Version>
+                <![CDATA[ 20080210-1.1 ]]>
+            </Version>
+            <Maintainer>
+                <![CDATA[ Stefano Canepa <sc@linux.it> ]]>
+            </Maintainer>
+        </item>
+        <item id="2">
+            <Package>
+                <![CDATA[ alien-arena-browser ]]>
+            </Package>
+            <Version>
+                <![CDATA[ 7.0-1 ]]>
+            </Version>
+            <Maintainer>
+                <![CDATA[ Debian Games Team <pkg-games-devel@lists.alioth.debian.org> ]]>
+            </Maintainer>
+        </item>
+        <item id="3">
+            <Package>
+                <![CDATA[ alsa-firmware-loaders ]]>
+            </Package>
+            <Version>
+                <![CDATA[ 1.0.21-1 ]]>
+            </Version>
+            <Maintainer>
+                <![CDATA[ Debian ALSA Maintainers <pkg-alsa-devel@lists.alioth.debian.org> ]]>
+            </Maintainer>
+        </item>
+    </data>
+
+=head3 Example 2
+
+    <?php
+    include_once 'DHX.php';
+    
+    $dataview = new DataView("iso-8859-1");
+    
+    $dataview->file(
+        array(
+            "name" => "Classes",
+            "type" => "dir",
+            "modifdate" => "2008-01-28 16-09-31"
+        ),
+        array(
+            "name" => "Downloads",
+            "type" => "dir",
+            "modifdate" => "2008-01-28 16-09-31"
+        ),
+        array(
+            "name" => "Java",
+            "type" => "dir",
+            "modifdate" => "2008-01-28 16-09-31"
+        ),
+        array(
+            "name" => "Apple.jpg",
+            "type" => "file",
+            "filesize" => "18637",
+            "modifdate" => "2008-01-28 17-02-23"
+        ),
+        array(
+            "name" => "My working place.jpg",
+            "type" => "file",
+            "filesize" => "231020",
+            "modifdate" => "2007-04-20 11-12-20"
+        ),
+        array(
+            "name" => "Price List 1.xls",
+            "type" => "file",
+            "filesize" => "110145",
+            "modifdate" => "2008-12-28 13-08-21"
+        ),
+        array(
+            "name" => "Price List 2.xls",
+            "type" => "file",
+            "filesize" => "112651",
+            "modifdate" => "2008-01-01 13-18-00"
+        ),
+        array(
+            "name" => "Favorite songs.mpu",
+            "type" => "file",
+            "filesize" => "534",
+            "modifdate" => "2006-01-00 12-10-20"
+        )
+    );
+    
+    $dataview->header();
+    echo $dataview->result();
+    ?>
+    
+B<Result>
+
+    <?xml version="1.0" encoding="iso-8859-1"?>
+    <data>
+        <item name="Classes" type="dir">
+            <modifdate>2008-01-28 16-09-31</modifdate>
+        </item>
+        <item name="Downloads" type="dir">
+            <modifdate>2008-01-28 16-09-31</modifdate>
+        </item>
+        <item name="Java" type="dir">
+            <modifdate>2008-01-28 16-09-31</modifdate>
+        </item>
+        <item name="Apple.jpg" type="file">
+            <filesize>18637</filesize>
+            <modifdate>2008-01-28 17-02-23</modifdate>
+        </item>
+        <item name="My working place.jpg" type="file">
+            <filesize>231020</filesize>
+            <modifdate>2007-04-20 11-12-20</modifdate>
+        </item>
+        <item name="Price List 1.xls" type="file">
+            <filesize>110145</filesize>
+            <modifdate>2008-12-28 13-08-21</modifdate>
+        </item>
+        <item name="Price List 2.xls" type="file">
+            <filesize>112651</filesize>
+            <modifdate>2008-01-01 13-18-00</modifdate>
+        </item>
+        <item name="Favorite songs.mpu" type="file">
+            <filesize>534</filesize>
+            <modifdate>2006-01-00 12-10-20</modifdate>
+        </item>
+    </data>
+    
+=head2 Author
+
+B<Lucas Tiago de Moraes>
+
+=head2 Support
+
+L<Group DHTMLX Facebook|https://www.facebook.com/groups/195216390589070/>

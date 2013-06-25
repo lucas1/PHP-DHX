@@ -1,0 +1,241 @@
+=encoding utf8
+
+=head1 Class Tree Documentation
+
+=head2 Description
+
+Class Tree - XML Generator for DHTMLX
+
+=head3 construct
+
+B<$tree = new Tree( set encoding, default utf-8 )>
+
+    $tree = new Tree;
+    
+or
+
+    $tree = new Tree('iso-8859-1');
+
+=head3 attributes
+
+B<id>
+
+    $tree->id = 0; // default 0
+    
+B<radio>
+
+    $tree->radio = 0;
+    
+B<order> 
+
+    $tree->order = "asc";
+
+=head3 item
+
+B<$tree-E<gt>item( array( 'key attribute' =E<gt> 'value attribute' ) )>
+
+    $tree->item(
+        array(
+            "id" => "p1",
+            "text" => "parent item 1",
+            "select" => "1",
+            "call" => "1"
+            "userdata" => array(
+                "name" => "some1",
+                "value" => "Value 1"
+            ),
+            "item" => array(
+                array(
+                     "id" => "c1-0", 
+                     "text" => "child item 1"
+                ),
+                array(
+                     "id" => "c1-1", 
+                     "text" => "child item 2"
+                )
+            )
+        )
+    );
+    
+=head3 start and end
+
+B<$tree-E<gt>start( array( 'key attribute' =E<gt> 'value attribute' ) )> and B<$form-E<gt>end()>
+
+    $tree->start(
+        array(
+            "id" => "p1",
+            "text" => "parent item 1",
+            "select" => "1",
+            "call" => "1"
+        )
+    );
+    
+    $tree->item(
+        array(
+             "id" => "c1-0", 
+             "text" => "child item 1"
+        ),
+        array(
+             "id" => "c1-1", 
+             "text" => "child item 2"
+        )
+    );
+    
+    $tree->end();
+            
+=head3 itemtext
+
+B<$tree-E<gt>itemtext( ' value ' )>
+
+    $tree->itemtext("Value");
+    
+=head3 userdata
+
+B<$tree-E<gt>userdata( array( 'key attribute' =E<gt> 'value attribute' ) )>
+
+    $tree->userdata(
+        array(
+            "name" => "some1",
+            "value" => "Value1"
+        ),
+        array(
+            "name" => "some2",
+            "value" => "Value2"
+        )
+    );
+
+=head3 header
+
+B<$tree-E<gt>header()>
+
+    $tree->header();
+    
+return
+
+    header("Content-type: application/xml; charset=utf-8");
+
+=head3 result
+
+B<$tree-E<gt>result()>
+
+    echo $tree->result();
+    
+Print XML
+
+=head2 Examples
+
+=head3 Example 1
+
+B<Mode 1>
+
+    <?php
+    include_once 'DHX.php';
+    
+    $tree = new Tree;
+    
+    $tree->item(
+        array(
+            "id" => "p1",
+            "text" => "parent item 1",
+            "select" => "1",
+            "call" => "1",
+            "itemtext" => "Value Item Text",
+            "userdata" => array(
+                "name" => "some1",
+                "value" => "Value 1"
+            ),
+            "item" => array(
+                array(
+                     "id" => "c1-0", 
+                     "text" => "child item 1"
+                ),
+                array(
+                     "id" => "c1-1", 
+                     "text" => "child item 2"
+                )
+            )
+        )
+    );
+    
+    $tree->header();
+    echo $tree->result();
+    ?>
+    
+B<Result>
+
+    <?xml version="1.0" encoding="utf-8"?>
+    <tree id="0">
+        <item id="p1" text="parent item 1" select="1" call="1">
+            <itemtext>
+                <![CDATA[ Value Item Text ]]>
+            </itemtext>
+            <userdata name="some1">Value 1</userdata>
+            <item id="c1-0" text="child item 1"/>
+            <item id="c1-1" text="child item 2"/>
+        </item>
+    </tree>
+    
+B<Mode 2>
+
+    <?php
+    include_once 'DHX.php';
+    
+    $tree = new Tree("iso-8859-1");
+    
+    // start p1
+    $tree->start(
+        array(
+            "id" => "p1",
+            "text" => "parent item 1",
+            "select" => "1",
+            "call" => "1",
+        )
+    );
+    
+    $tree->itemtext("Value Item Text");
+    
+    $tree->userdata(
+        array(
+            "name" => "some1",
+            "value" => "Value 1"
+        )
+    );
+    
+    $tree->item(
+        array(
+             "id" => "c1-0", 
+             "text" => "child item 1"
+        ),
+        array(
+             "id" => "c1-1", 
+             "text" => "child item 2"
+        )
+    );
+    
+    $tree->end(); // end p1
+    
+    $tree->header();
+    echo $tree->result();
+    ?>
+    
+B<Result>
+
+    <?xml version="1.0" encoding="iso-8859-1"?>
+    <tree id="0">
+        <item id="p1" text="parent item 1" select="1" call="1">
+            <itemtext>
+                <![CDATA[ Value Item Text ]]>
+            </itemtext>
+            <userdata name="some1">Value 1</userdata>
+            <item id="c1-0" text="child item 1"/>
+            <item id="c1-1" text="child item 2"/>
+        </item>
+    </tree>
+    
+=head2 Author
+
+B<Lucas Tiago de Moraes>
+
+=head2 Support
+
+L<Group DHTMLX Facebook|https://www.facebook.com/groups/195216390589070/>

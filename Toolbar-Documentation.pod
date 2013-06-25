@@ -1,0 +1,120 @@
+=encoding utf8
+
+=head1 Class Toolbar Documentation
+
+=head2 Description
+
+Class Toolbar - XML Generator for DHTMLX
+
+=head3 construct
+
+B<$toolbar = new Toolbar( set encoding, default utf-8 )>
+
+    $toolbar = new Toolbar;
+    
+or
+
+    $toolbar = new Toolbar('iso-8859-1');
+    
+=head3 item
+
+B<$toolbar-E<gt>item( array( 'key attribute' =E<gt> 'value attribute' ) )>
+
+    $toolbar->item(
+        array(
+            "id" => "new",
+            "type" => "button",
+            "img" => "new.gif",
+            "imgdis" => "new_dis.gif",
+            "userdata" => array(
+                "name" => "some1",
+                "value" => "Value 1"
+            ),
+            "item" => array(
+                "type" => "button",
+                "id" => "8_1",
+                "text" => "Today"
+            )
+        )
+    );
+    
+=head3 header
+
+B<$toolbar-E<gt>header()>
+
+    $toolbar->header();
+    
+return
+
+    header("Content-type: application/xml; charset=utf-8");
+
+=head3 result
+
+B<$toolbar-E<gt>result()>
+
+    echo $toolbar->result();
+    
+Print XML
+
+=head2 Examples
+
+=head3 Example 1
+
+    <?php
+    include_once 'DHX.php';
+    
+    $toolbar = new Toolbar;
+    
+    $toolbar->item(
+        array(
+            "id" => "new",
+            "type" => "button",
+            "img" => "new.gif",
+            "imgdis" => "new_dis.gif",
+            "userdata" => array(
+                "name" => "some1",
+                "value" => "Value 1"
+            ),
+            "item" => array(
+                array(
+                    "type" => "button",
+                    "id" => "8_1",
+                    "text" => "Today"
+                ),
+                array(
+                    "type" => "button",
+                    "id" => "8_2",
+                    "text" => "Yesturday"
+                ),
+                array(
+                    "type" => "button",
+                    "id" => "8_3",
+                    "text" => "Last Week"
+                )
+            )
+        )
+    );
+    
+    $toolbar->header();
+    echo $toolbar->result();
+    ?>
+    
+B<Result>
+
+    <?xml version="1.0" encoding="utf-8"?>
+    <toolbar>
+        <item id="new" type="button" img="new.gif" imgdis="new_dis.gif">
+            <userdata>Value 1</userdata>
+            <item type="button" id="8_1" text="Today"/>
+            <item type="button" id="8_2" text="Yesturday"/>
+            <item type="button" id="8_3" text="Last Week"/>
+        </item>
+    </toolbar>
+    
+=head2 Author
+
+B<Lucas Tiago de Moraes>
+
+=head2 Support
+
+L<Group DHTMLX Facebook|https://www.facebook.com/groups/195216390589070/>

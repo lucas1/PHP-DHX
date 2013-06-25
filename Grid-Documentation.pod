@@ -1,0 +1,379 @@
+=encoding utf8
+
+=head1 Class Grid Documentation
+
+=head2 Description
+
+Class Grid - XML Generator for DHTMLX
+
+=head3 construct
+
+B<$grid = new Grid( set encoding, default utf-8 )>
+
+    $grid = new Grid;
+    
+or
+
+    $grid = new Grid('iso-8859-1');
+    
+=head3 attributes
+
+B<pos>
+
+    $grid->pos = 100;
+    
+B<total_count>
+
+    $grid->total_count = 1000;
+    
+=head3 settings
+
+B<$grid-E<gt>settings( array( 'key attribute' =E<gt> 'value attribute' ) )>
+
+    $grid->settings(
+        array(
+            "colwidth" => "px",
+            "splitat" => 2
+        )
+    );
+    
+=head3 column
+
+B<$grid-E<gt>column( array( 'key attribute' =E<gt> 'value attribute' ) )>
+
+column simple
+
+    $grid->column(
+        array(
+             "type" => "edn",
+             "width" => "150",
+             "sort" => "str",
+             "format" => "0.00",
+             "label" => "Foo"
+        ),
+        array(
+             "type" => "edn",
+             "width" => "150",
+             "sort" => "str",
+             "format" => "0.00",
+             "label" => "Bar"
+        ),
+        array(
+             "type" => "edn",
+             "width" => "150",
+             "sort" => "str",
+             "format" => "0.00",
+             "label" => "Baz"
+        )
+    );
+    
+column with combo option
+
+    $grid->column(
+        array(
+            "type" => "co",
+            "width" => "150",
+            "sort" => "na",
+            "id" => "last",
+            "label" => "Combo",
+            "option" => array(
+                array("value" => "1", "text" => "One"),
+                array("value" => "2", "text" => "Two"),
+                array("value" => "3", "text" => "Three")
+            )
+        )
+    );
+
+
+=head3 beforeInit
+
+B<$grid-E<gt>beforeInit('command', 'value 1', 'value 2', ...)>
+
+    $grid->beforeInit("enableResizing", "false", "false");
+    
+=head3 afterInit
+
+B<$grid-E<gt>afterInit('command', 'value 1', 'value 2', ...)>
+
+    $grid->afterInit("enableResizing", "Label 2-1", "Label 2-2");  
+    
+=head3 row
+
+B<$grid-E<gt>row( array( 'key attribute' =E<gt> 'value attribute' ) )>
+
+    $grid->row(
+        array(
+            "id" => 1,
+            "cell" => array("foo", "bar", "baz")
+        ),
+        array(
+            "id" => 2,
+            "cell" => array("foo", "bar", array("class" => "css2", "text" => "baz"))
+        ),
+        array(
+            "id" => 3,
+            "userdata" => array("name" => "some1", "value" => "Value 1"),
+            "cell" => array("foo", "bar", "baz")
+        ),
+        array(
+            "id" => 4,
+            "userdata" => array("name" => "some2", "value" => "Value 2"),
+            "cell" => array("foo", "bar", "baz")
+        )
+    );
+    
+=head3 cell
+
+B<$grid-E<gt>cell('id', 'value 1', 'value 2', ...)>
+
+    $grid->cell(1, "foo", "bar", "baz");
+    $grid->cell(2, "foo", "bar", "baz");
+    $grid->cell(3, "foo", "bar", "baz");
+    $grid->cell(4, "foo", "bar", "baz");
+    
+=head3 userdata
+
+B<$grid-E<gt>userdata( array( 'key attribute' =E<gt> 'value attribute' ) )>
+
+    $grid->userdata(
+        array(
+            "name" => "some1",
+            "value" => "Value1"
+        ),
+        array(
+            "name" => "some2",
+            "value" => "Value2"
+        )
+    );
+    
+=head3 header
+
+B<$grid-E<gt>header()>
+
+    $grid->header();
+    
+return
+
+    header("Content-type: application/xml; charset=utf-8");
+
+=head3 result
+
+B<$grid-E<gt>result()>
+
+    echo $grid->result();
+    
+Print XML
+
+=head2 Examples
+
+=head3 Example 1
+
+B<Mode 1>
+
+    <?php
+    include_once 'DHX.php';
+    
+    $grid1 = new Grid;
+    
+    $grid1->row(
+        array(
+            "id" => 1,
+            "cell" => array("foo 1", "bar 1", "baz 1")
+        ),
+        array(
+            "id" => 2,
+            "cell" => array("foo 2", "bar 2", "baz 2")
+        ),
+        array(
+            "id" => 3,
+            "cell" => array("foo 3", "bar 3", "baz 3")
+        ),
+        array(
+            "id" => 4,
+            "cell" => array("foo 4", "bar 4", "baz 4")
+        ),
+        array(
+            "id" => 5,
+            "cell" => array("foo 5", "bar 5", "baz 5")
+        )
+    );
+    
+    $grid1->header();
+    echo $grid1->result();
+    ?>
+    
+B<Result>
+
+    <?xml version="1.0" encoding="utf-8"?>
+    <rows>
+        <row id="1">
+            <cell>foo 1</cell>
+            <cell>bar 1</cell>
+            <cell>baz 1</cell>
+        </row>
+        <row id="2">
+            <cell>foo 2</cell>
+            <cell>bar 2</cell>
+            <cell>baz 2</cell>
+        </row>
+        <row id="3">
+            <cell>foo 3</cell>
+            <cell>bar 3</cell>
+            <cell>baz 3</cell>
+        </row>
+        <row id="4">
+            <cell>foo 4</cell>
+            <cell>bar 4</cell>
+            <cell>baz 4</cell>
+        </row>
+        <row id="5">
+            <cell>foo 5</cell>
+            <cell>bar 5</cell>
+            <cell>baz 5</cell>
+        </row>
+    </rows>
+    
+B<Mode 2>
+
+    <?php
+    include_once 'DHX.php';
+    
+    $grid2 = new Grid("iso-8859-1");
+    
+    $grid2->cell(1, "foo 1", "bar 1", "baz 1");
+    $grid2->cell(2, "foo 2", "bar 2", "baz 2");
+    $grid2->cell(3, "foo 3", "bar 3", "baz 3");
+    $grid2->cell(4, "foo 4", "bar 4", "baz 4");
+    $grid2->cell(5, "foo 5", "bar 5", "baz 5");
+    
+    $grid2->header();
+    echo $grid2->result();
+    ?>
+    
+B<Result>
+    
+    <?xml version="1.0" encoding="iso-8859-1"?>
+    <rows>
+        <row id="1">
+            <cell>foo 1</cell>
+            <cell>bar 1</cell>
+            <cell>baz 1</cell>
+        </row>
+        <row id="2">
+            <cell>foo 2</cell>
+            <cell>bar 2</cell>
+            <cell>baz 2</cell>
+        </row>
+        <row id="3">
+            <cell>foo 3</cell>
+            <cell>bar 3</cell>
+            <cell>baz 3</cell>
+        </row>
+        <row id="4">
+            <cell>foo 4</cell>
+            <cell>bar 4</cell>
+            <cell>baz 4</cell>
+        </row>
+        <row id="5">
+            <cell>foo 5</cell>
+            <cell>bar 5</cell>
+            <cell>baz 5</cell>
+        </row>
+    </rows>
+    
+=head3 Example 2
+
+    <?php
+    include_once 'DHX.php';
+    
+    $grid = new Grid;
+    
+    // settings
+    $grid->settings(array("colwidth" => "px", "splitat" => 2));
+    
+    // beforeInit
+    $grid->beforeInit("enableResizing", "false", "false");
+    
+    // afterInit
+    $grid->afterInit("enableResizing", "Label 2-1", "Label 2-2");
+    
+    // column
+    $grid->column(
+        array(
+            "type" => "ed",
+            "width" => "150",
+            "sort" => "str",
+            "label" => "Name"
+        ),
+        array(
+            "type" => "ed",
+            "width" => "150",
+            "sort" => "str",
+            "label" => "E-mail"
+        ),
+        array(
+            "type" => "ed",
+            "width" => "150",
+            "sort" => "str",
+            "label" => "Login"
+        )
+    );
+    
+    // cell
+    $grid->cell(1, "Foo", "foo@foo.com", "foo");
+    $grid->cell(1, "Bar", "bar@bar.com", "bar");
+    $grid->cell(1, "Baz", "baz@baz.com", "baz");
+    
+    $grid->header();
+    echo $grid->result();
+    ?>
+    
+B<Result>
+    
+    <?xml version="1.0" encoding="utf-8"?>
+    <rows>
+        <head>
+            <settings>
+                <colwidth>px</colwidth>
+                <splitat>2</splitat>
+            </settings>
+            <beforeInit>
+                <call command="enableResizing">
+                    <param>false,false</param>
+                </call>
+            </beforeInit>
+            <afterInit>
+                <call command="enableResizing">
+                    <param>Label 2-1,Label 2-2</param>
+                </call>
+            </afterInit>
+            <column type="ed" width="150" sort="str">Name</column>
+            <column type="ed" width="150" sort="str">E-mail</column>
+            <column type="ed" width="150" sort="str">Login</column>
+        </head>
+        <row id="1">
+            <cell>Foo</cell>
+            <cell>foo@foo.com</cell>
+            <cell>foo</cell>
+        </row>
+        <row id="1">
+            <cell>Bar</cell>
+            <cell>bar@bar.com</cell>
+            <cell>bar</cell>
+        </row>
+        <row id="1">
+            <cell>Baz</cell>
+            <cell>baz@baz.com</cell>
+            <cell>baz</cell>
+        </row>
+    </rows>
+
+=head2 Author
+
+B<Lucas Tiago de Moraes>
+
+=head2 Support
+
+L<Group DHTMLX Facebook|https://www.facebook.com/groups/195216390589070/>
+
+

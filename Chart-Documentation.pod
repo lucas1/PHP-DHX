@@ -1,0 +1,122 @@
+=encoding utf8
+
+=head1 Class Chart Documentation
+
+=head2 Description
+
+Class Chart - XML Generator for DHTMLX
+
+=head3 construct
+
+B<$chart = new Chart( set encoding, default utf-8 )>
+
+    $chart = new Grid;
+    
+or
+
+    $chart = new Chart('iso-8859-1');
+    
+=head3 item
+
+B<$chart-E<gt>item( array( 'key attribute' =E<gt> 'value attribute' ) )>
+
+    $chart->item(
+        array(
+            "id" => 01,
+            "sales" => "35",
+            "year" => "'07"
+        )
+    );
+    
+=head3 header
+
+B<$chart-E<gt>header()>
+
+    $chart->header();
+    
+return
+
+    header("Content-type: application/xml; charset=utf-8");
+
+=head3 result
+
+B<$chart-E<gt>result()>
+
+    echo $chart->result();
+    
+Print XML
+
+=head2 Examples
+
+=head3 Example 1
+
+    <?php
+    include_once 'DHX.php';
+    
+    $chart = new Chart;
+    
+    $chart->item(
+        array(
+            "id" => 01,
+            "sales" => "35",
+            "year" => "'07"
+        ),
+        array(
+            "id" => 11,
+            "sales" => "50",
+            "year" => "'08"
+        ),
+        array(
+            "id" => 21,
+            "sales" => "65",
+            "year" => "'09"
+        ),
+        array(
+            "id" => 31,
+            "sales" => "30",
+            "year" => "'10"
+        ),
+        array(
+            "id" => 41,
+            "sales" => "45",
+            "year" => "'11"
+        )
+    );
+    
+    $chart->header();
+    echo $chart->result();
+    ?>
+    
+B<Result>
+
+    <?xml version="1.0" encoding="utf-8"?>
+    <data>
+        <item id="1">
+            <sales>35</sales>
+            <year>'07</year>
+        </item>
+        <item id="11">
+            <sales>50</sales>
+            <year>'08</year>
+        </item>
+        <item id="21">
+            <sales>65</sales>
+            <year>'09</year>
+        </item>
+        <item id="31">
+            <sales>30</sales>
+            <year>'10</year>
+        </item>
+        <item id="41">
+            <sales>45</sales>
+            <year>'11</year>
+        </item>
+    </data>
+    
+=head2 Author
+
+B<Lucas Tiago de Moraes>
+
+=head2 Support
+
+L<Group DHTMLX Facebook|https://www.facebook.com/groups/195216390589070/>
